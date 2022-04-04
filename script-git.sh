@@ -40,38 +40,39 @@ sendFilesToGitRepo() {
 	git status 
 	read -p "Souhaitez vous continuer (y/n) : " -n 2 scriptProgressAnswer
 	echo $scriptProgressAnswer
-    if [ $scriptProgressAnswer = "y" ]
-    then
-	    git add .
-	    git status
-	    read -p "Veuillez rentrer un nom de commit : " -n 100 commitName
-        echo $commitName
-        git commit -m "$commitName"
-        read -p "Sur quelle branche souhaitez vous mettre vos modifications : " -n 100 branchName
-        echo $branchName
-        git push origin $branchName
-        git log --oneline -n 5 
-    else
-        exit
-    fi
+  if [ $scriptProgressAnswer = "y" ]
+  then
+    git add .
+    git status
+    read -p "Veuillez rentrer un nom de commit : " -n 100 commitName
+    
+    echo $commitName
+    git commit -m "$commitName"
+    read -p "Sur quelle branche souhaitez vous mettre vos modifications : " -n 100 branchName
+    echo $branchName
+    git push origin $branchName
+    git log --oneline -n 5 
+  else
+    exit
+  fi
 }
 
 getLastSourceFromGitRepo() {
-    read -p "Quelle branche souhaitez vous mettre a jour : " -n 100 branchName
-    echo $branchName
-    git checkout $branchName
-    git fetch origin
-    git rebase origin
-    git pull origin $branchName
-    git log --oneline -n 5
-    read -p "Souhaitez vous continuer (y/n) : " -n 2 scriptProgressAnswer
-    echo $scriptProgressAnswer
-    if [ $scriptProgressAnswer = "y" ]
-    then
-        getLastSourceFromGitRepo
-    else
-        exit
-    fi
+  read -p "Quelle branche souhaitez vous mettre a jour : " -n 100 branchName
+  echo $branchName
+  git checkout $branchName
+  git fetch origin
+  git rebase origin
+  git pull origin $branchName
+  git log --oneline -n 5
+  read -p "Souhaitez vous continuer (y/n) : " -n 2 scriptProgressAnswer
+  echo $scriptProgressAnswer
+  if [ $scriptProgressAnswer = "y" ]
+  then
+    getLastSourceFromGitRepo
+  else
+    exit
+  fi
 }
 
 getRemoteRepo() {
