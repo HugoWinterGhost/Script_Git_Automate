@@ -1,26 +1,39 @@
 #!/bin/bash
 
 welcomeBashScript() {
-    echo "### Script Bash pour automatiser les commandes Git :) ###"
-    read -p "Veuillez rentrer un email : " -n 100 mail
-    read -p "Veuillez saisir un nom d'utilisateur : " -n 100 userName
-    git config --global user.email "$mail"
-    git config --global user.name "$userName"
+  read -p "
+Menu Commandes GIT
+-------------------------------------------------------
+  1 ) - Pour Cloner le Repo
+  2 ) - Pour Pousser vos modifs vers le Repo
+  3 ) - Pour Récupérer les sources du Repo
+  4 ) - Pour Récupérer le remote du Repo
+-------------------------------------------------------
+Votre réponse : " -n 2 functionName
+  if [ $functionName = "1" ]
+  then
+    echo $functionName
+    cloneGitRepoFiles
+  elif [ $functionName = "2" ]
+  then
+    echo $functionName
+    sendFilesToGitRepo
+  elif [ $functionName = "3" ]
+  then
+    echo $functionName
+    getLastSourceFromGitRepo
+  elif [ $functionName = "4" ]
+  then
+    echo $functionName
+    getRemoteRepo
+  else
+    exit
+  fi
+}
 
-    echo "Quelle fonction souhaitez vous executer (1/2)
-(1 : sendFilesToGitRepo) (2 : getLastSourceFromGitRepo)" 
-    read -p "votre réponse (1/2) : " -n 2 functionName
-    if [ $functionName = "1" ]
-    then
-        echo $functionName
-        sendFilesToGitRepo
-    elif [ $functionName = "2" ]
-    then
-        echo $functionName
-        getLastSourceFromGitRepo
-    else
-        exit
-    fi
+cloneGitRepoFiles() {
+  read -p "Veuillez entrer l'url du repo GIT : " -n 100 gitRepoUrl
+  git clone $gitRepoUrl;
 }
 
 sendFilesToGitRepo() {
@@ -59,6 +72,13 @@ getLastSourceFromGitRepo() {
     else
         exit
     fi
+}
+
+getRemoteRepo() {
+  read -p "Veuillez entrer l'url du remote du repo GIT : " -n 100 gitRepoRemoteUrl
+  git remote rm origin;
+  git remote add origin $gitRepoRemoteUrl;
+  git remote -v;
 }
 
 welcomeBashScript
